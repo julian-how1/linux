@@ -1,0 +1,35 @@
+import sys
+
+
+if len(sys.argv) != 2:
+    print("Usage: python3 mycipher.py <shift>")
+    sys.exit(1)
+
+try:
+    key = int(sys.argv[1]) % 26
+except ValueError:
+    print("Shift value must be an integer.")
+    sys.exit(1)
+
+
+text = ''
+for line in sys.stdin:
+    text += line
+
+
+text = text.upper()
+
+
+encoded = ''
+for char in text:
+    if 'A' <= char <= 'Z':
+        shifted = (ord(char) - ord('A') + key) % 26 + ord('A')
+        encoded += chr(shifted)
+
+
+for i in range(0, len(encoded), 5 * 10):
+    line = encoded[i:i + 50]
+    for j in range(0, len(line), 5):
+        print(line[j:j + 5], end=' ')
+    print()
+
